@@ -93,7 +93,55 @@ const buyPlayer = async (req, res) => {
   }
 };
 
-const sellPlayer = async (req, res) => {};
+const sellPlayer = async (req, res) => {
+  try {
+    const user = req.user;
+    const userId = user._id;
+    const { playerId, askingPrice } = req.body;
+
+    if (!playerId || !askingPrice)
+      return res
+        .status(400)
+        .json({ message: "Player ID and Price are Required!" });
+
+    const team = await Team.findOne({ userId });
+
+    if (!team) return res.status(400).json({ message: "User has No Team!" });
+
+    const playerCount = await Player.countDocuments({ teamId: team._id });
+    if (playerCount <= 15)
+      return res
+        .status(400)
+        .json({ message: "You cannot have Less Than 15 Players!" });
+
+    const player = await Player.findById(playerId);
+    if (!player) {
+      return res
+        .status(400)
+        .json({ message: "Player Does not Exist in the Market!" });
+    }
+
+    if (player.onTransferList) {
+      return res
+        .status(400)
+        .json({ message: "Player Already Exists in the Market!" });
+    }
+
+    if (player.teamId.toString() !== team._id.toString())
+      return res.status(400).json({ message: "Cannot Sell Other's Player!" });
+
+    player.onTransferList = true;
+    player.askingPrice = askingPrice;
+
+    player.save();
+
+    return res
+      .status(200)
+      .json({ player, message: "Player Added to the Market" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
   getMarketPlayers,
