@@ -1,4 +1,5 @@
 const Player = require("../models/player.model");
+const Team = require("../models/team.model");
 
 const getMarketPlayers = async (req, res) => {
   try {
@@ -53,7 +54,44 @@ const getMarketPlayers = async (req, res) => {
   }
 };
 
-const buyPlayer = async (req, res) => {};
+const buyPlayer = async (req, res) => {
+  try {
+    const user = req.user;
+    const userId = user._id;
+    const { playerId } = req.body;
+
+    const team = await Team.findOne({ userId });
+
+    if (!team) return res.status(400).json({ message: "User has No Team!" });
+
+    const playerCount = await Player.countDocuments({ teamId: team._id });
+    if (playerCount >= 25)
+      return res.status(400).json({ message: "Your Team is Full!" });
+
+    const player = await Player.findById(playerId);
+    if (!player || !player.onTransferList) {
+      return res
+        .status(400)
+        .json({ message: "Player Does not Exist in the Market!" });
+    }
+
+    if (player.teamId.toString() === team._id.toString())
+      return res
+        .status(400)
+        .json({ message: "Cannot Purchase your Own Player!" });
+
+    player.teamId = team._id;
+    player.onTransferList = false;
+    player.baseValue = player.askingPrice;
+    player.askingPrice = 0;
+
+    player.save();
+
+    return res.status(200).json({ player, message: "Player Purchased" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
 const sellPlayer = async (req, res) => {};
 
