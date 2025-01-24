@@ -13,6 +13,9 @@ app.use(morgan("common"));
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
 
+const marketRoutes = require("./routes/market.routes");
+app.use("/market", marketRoutes);
+
 app.listen(process.env.PORT, () => {
   connectToMongoDB();
   console.log("Server Running on :", process.env.PORT);
