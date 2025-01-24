@@ -9,6 +9,6 @@ const positionSchema = new mongoose.Schema(
   }
 );
 
-const Position = mongoose.model("Player", positionSchema);
+const Position = mongoose.model("Position", positionSchema);
 
 module.exports = Position;
