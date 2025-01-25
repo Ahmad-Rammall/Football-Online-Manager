@@ -2,6 +2,7 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const topUsedPasswords = require("../topUsedPasswords");
+const teamQueue = require("../queue");
 
 const validateEmailFormat = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,7 +33,10 @@ const createUser = async (email, password) => {
     password: hashedPassword,
   });
 
-  return user.save({ new: true, runValidators: true });
+  const createdUser = await User.create(user);
+
+  await teamQueue.add({ userId: createdUser._id });
+  return createdUser;
 };
 
 const login = async (id, email, password, hashedPassword) => {
