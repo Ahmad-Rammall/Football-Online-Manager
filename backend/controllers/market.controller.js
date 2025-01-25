@@ -80,12 +80,27 @@ const buyPlayer = async (req, res) => {
         .status(400)
         .json({ message: "Cannot Purchase your Own Player!" });
 
+    if (team.budget < player.askingPrice)
+      return res
+        .status(400)
+        .json({ message: "You Don't Have Enaugh Budget to Buy This Player!" });
+
+    const playerPrice = player.askingPrice;
+    const oldPlayerTeam = player.teamId;
+
+    team.budget -= playerPrice;
+
     player.teamId = team._id;
     player.onTransferList = false;
-    player.baseValue = player.askingPrice;
+    player.baseValue = playerPrice;
     player.askingPrice = 0;
 
     player.save();
+    team.save();
+    await Team.findOneAndUpdate(
+      { _id: oldPlayerTeam },
+      { $inc: { budget: +playerPrice } }
+    );
 
     return res.status(200).json({ player, message: "Player Purchased" });
   } catch (error) {
