@@ -27,6 +27,7 @@ const playerSchema = new mongoose.Schema(
     },
     askingPrice: {
       type: Number,
+      default: 0,
     },
   },
   {
