@@ -1,0 +1,22 @@
+footer {
+  width: 100%;
+  background-color: var(--primary-blue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+}
+
+footer div{
+    color: white;
+}
+
+footer div:first-child {
+  font-size: 20px;
+}
+
+footer div:last-child {
+    font-size: 14px;
+  }
