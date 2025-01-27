@@ -12,7 +12,7 @@ const getTeam = async (req, res) => {
 
   const players = await Player.find({
     teamId: team._id,
-  });
+  }).populate("position").lean();
 
   return res.status(200).json({
     players,

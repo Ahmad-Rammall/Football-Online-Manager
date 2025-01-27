@@ -1,15 +1,16 @@
 .playerCardContainer {
   background-color: white;
   padding: 10px;
-  width: 150px;
+  width: 200px;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
+  margin: auto;
 }
 
-.playerName{
-    font-size: 25px;
+.playerName {
+  font-size: 25px;
 }

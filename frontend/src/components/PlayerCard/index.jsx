@@ -5,9 +5,9 @@ import "./index.css"
 function PlayerCard({ player }) {
   return (
     <div className="playerCardContainer">
-      <div className="playerName">{player?.name}messi</div>
-      <div>{player?.position}attacker</div>
-      <div>${player?.baseValue}100000</div>
+      <div className="playerName">{player?.name}</div>
+      <div>{player?.position?.name}</div>
+      <div>${player?.baseValue}</div>
       <Button variant="outlined" color="error">
         Sell
       </Button>
