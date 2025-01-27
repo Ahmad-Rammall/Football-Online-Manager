@@ -4,10 +4,13 @@ import Paper from "@mui/material/Paper";
 import useAsync from "../../../hooks/useAsync";
 import { marketDataSource } from "../../core/api/market";
 import COLORS from "../../constants/COLORS";
-import { colors } from "@mui/material";
+import Modal from "../../components/Modal/index";
 
 function Market() {
   const [players, setPlayers] = useState([]);
+  const [isModalOpen, setOpenModal] = useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
+
   const getAllMarketPlayers = useAsync({
     fn: marketDataSource.getMarketPlayers,
     onSuccess: () => {
@@ -19,6 +22,17 @@ function Market() {
     },
     callOnMount: true,
   });
+
+  const buyPlayer = useAsync({
+    fn: marketDataSource.buyPlayer,
+    onSuccess: () => {
+      console.log("Player Purchased");
+    },
+    onError: () => {
+      console.log(buyPlayer.error);
+    },
+  });
+
   const columns = [
     {
       field: "_id",
@@ -67,7 +81,10 @@ function Market() {
       renderCell: (params) => {
         return (
           <button
-            onClick={() => console.log(params.row)}
+            onClick={() => {
+              setSelectedPlayer(params.row);
+              setOpenModal(true);
+            }}
             style={{
               padding: "5px 10px",
               backgroundColor: COLORS.primaryBlue,
@@ -87,16 +104,26 @@ function Market() {
   const paginationModel = { page: 0, pageSize: 5 };
 
   return (
-    <Paper sx={{ height: "100%", width: "100%", padding: 2 }}>
-      <DataGrid
-        rows={players}
-        getRowId={(row) => row._id}
-        columns={columns}
-        initialState={{ pagination: { paginationModel } }}
-        pageSizeOptions={[5, 10]}
-        sx={{ border: 0 }}
+    <>
+      <Modal
+        open={isModalOpen}
+        handleClose={() => setOpenModal(false)}
+        text={`Are you sure you want to buy ${selectedPlayer?.name} for $${selectedPlayer?.askingPrice}?`}
+        btnText={"Buy"}
+        title={`Buy ${selectedPlayer?.name}`}
+        onSubmit={() => buyPlayer.main({ playerId: selectedPlayer?._id })}
       />
-    </Paper>
+      <Paper sx={{ height: "100%", width: "100%", padding: 2 }}>
+        <DataGrid
+          rows={players}
+          getRowId={(row) => row._id}
+          columns={columns}
+          initialState={{ pagination: { paginationModel } }}
+          pageSizeOptions={[5, 10]}
+          sx={{ border: 0 }}
+        />
+      </Paper>
+    </>
   );
 }
 

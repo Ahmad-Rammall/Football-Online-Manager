@@ -7,4 +7,12 @@ export const marketDataSource = {
     });
     return response;
   },
+  buyPlayer: async (data) => {
+    const response = await sendRequest({
+      route: "market/buy-player",
+      method: "POST",
+      body:data
+    });
+    return response;
+  },
 };
