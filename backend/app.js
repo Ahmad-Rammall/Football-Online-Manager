@@ -16,6 +16,9 @@ app.use("/auth", authRoutes);
 const marketRoutes = require("./routes/market.routes");
 app.use("/market", marketRoutes);
 
+const teamRoutes = require("./routes/team.routes");
+app.use("/team", teamRoutes);
+
 app.listen(process.env.PORT, () => {
   connectToMongoDB();
   console.log("Server Running on :", process.env.PORT);
