@@ -46,6 +46,7 @@ const getMarketPlayers = async (req, res) => {
     }
     market = await Player.find({ onTransferList: true })
       .populate("teamId")
+      .populate("position")
       .sort({ [sortField]: order });
 
     return res.status(200).json(market);
