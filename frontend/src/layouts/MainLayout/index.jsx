@@ -19,7 +19,7 @@ function MainLayout({ children }) {
       <div
         style={{
           display: loading ? "none" : "",
-          height:"100%"
+          // height:"100%"
         }}
       >
         <Header />
