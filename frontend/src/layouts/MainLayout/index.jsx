@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Loader from "../Loader";
+import "./index.css";
 
 function MainLayout({ children }) {
   const [loading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ function MainLayout({ children }) {
         }}
       >
         <Header />
-        <div>
+        <div className="childrenWrapper">
           {React.Children.map(children, (child) => {
             return React.cloneElement(child, {
               startLoading: () => setLoading(true),

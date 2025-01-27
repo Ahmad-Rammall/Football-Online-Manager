@@ -1,4 +1,4 @@
 export default COLORS = {
   primaryBlue: "#323645",
-  secondaryBlue: "#3B3D4C",
+  secondaryBlue: "#3b3d4c4f",
 };
