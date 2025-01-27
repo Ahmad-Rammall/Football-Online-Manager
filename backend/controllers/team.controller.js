@@ -1,7 +1,7 @@
 const Team = require("../models/team.model");
 const Player = require("../models/player.model");
 
-const getTeamPlayers = async (req, res) => {
+const getTeam = async (req, res) => {
   const userId = req.user._id;
 
   const team = await Team.findOne({
@@ -14,9 +14,12 @@ const getTeamPlayers = async (req, res) => {
     teamId: team._id,
   });
 
-  return res.status(200).json(players);
+  return res.status(200).json({
+    players,
+    team,
+  });
 };
 
 module.exports = {
-  getTeamPlayers,
+  getTeam,
 };
