@@ -1,0 +1,59 @@
+.authWrapper {
+  background-color: var(--primary-blue);
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 80%;
+}
+
+.logo {
+  width: 100%;
+  text-align: center;
+}
+
+.authContainer {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  width: 40%;
+}
+
+.topContainer {
+  text-align: center;
+}
+
+.loginSubTitle {
+  font-size: 15px;
+  font-family: "Questrial", serif !important;
+}
+
+.loginButton {
+  background-color: var(--primary-blue);
+  color: white;
+  width: 50%;
+  text-align: center;
+  margin: 0 auto;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+input {
+  border-radius: 5px;
+  padding: 10px 5px;
+  width: 100%;
+}
