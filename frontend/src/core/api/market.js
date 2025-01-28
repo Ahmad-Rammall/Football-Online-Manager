@@ -11,7 +11,15 @@ export const marketDataSource = {
     const response = await sendRequest({
       route: "market/buy-player",
       method: "POST",
-      body:data
+      body: data,
+    });
+    return response;
+  },
+  sellPlayer: async (data) => {
+    const response = await sendRequest({
+      route: "market/sell-player",
+      method: "POST",
+      body: data,
     });
     return response;
   },

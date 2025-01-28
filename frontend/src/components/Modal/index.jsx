@@ -8,6 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
+import { TextField } from "@mui/material";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -25,6 +26,10 @@ export default function CustomizedDialogs({
   btnText,
   onSubmit,
   title,
+  withInput,
+  inputLabel,
+  inputType="text",
+  onInputChange
 }) {
   return (
     <React.Fragment>
@@ -49,6 +54,16 @@ export default function CustomizedDialogs({
 
         <DialogContent dividers>
           <Typography gutterBottom>{text}</Typography>
+          {withInput && (
+            <TextField
+              id="outlined-basic"
+              label={inputLabel}
+              variant="outlined"
+              sx={{margin:"10px 0", width:"100%"}}
+              type={inputType}
+              onChange={onInputChange}
+            />
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={onSubmit}>{btnText}</Button>
