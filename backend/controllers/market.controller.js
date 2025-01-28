@@ -159,8 +159,38 @@ const sellPlayer = async (req, res) => {
   }
 };
 
+const removePlayerFromMarket = async (req, res) => {
+  const userId = req.user._id;
+  const { playerId } = req.body;
+
+  const team = await Team.findOne({ userId });
+
+  if (!team) return res.status(400).json({ message: "User has No Team!" });
+
+  if (!playerId)
+    return res.status(400).json({ message: "Player ID Required!" });
+
+  console.log(playerId, team._id);
+
+  const player = await Player.findOne({
+    _id: playerId,
+    teamId: team._id,
+    onTransferList: true,
+  });
+
+  if (!player)
+    return res.status(400).json({ message: "Player Does Not Exist" });
+
+  player.onTransferList = false;
+  player.askingPrice = 0;
+
+  await player.save();
+  return res.status(200).json({ message: "Player Updated", player });
+};
+
 module.exports = {
   getMarketPlayers,
   buyPlayer,
   sellPlayer,
+  removePlayerFromMarket,
 };
