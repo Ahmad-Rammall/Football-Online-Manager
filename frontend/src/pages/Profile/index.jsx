@@ -11,6 +11,7 @@ function Profile() {
   const [team, setTeam] = useState({});
   const [players, setPlayers] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [removeModal, setRemoveModal] = useState(false);
 
   const [openNameModal, setOpenNameModal] = useState(false);
   const [teamName, setTeamName] = useState("");
@@ -21,6 +22,11 @@ function Profile() {
   const handleSell = (player) => {
     setSelectedPlayer(player);
     setOpenModal(true);
+  };
+
+  const removeFromMarket = (player) => {
+    setSelectedPlayer(player);
+    setRemoveModal(true);
   };
 
   const getMyTeam = useAsync({
@@ -48,6 +54,16 @@ function Profile() {
     },
   });
 
+  const returnPlayer = useAsync({
+    fn: marketDataSource.returnPlayer,
+    onSuccess: () => {
+      console.log("Player Returned");
+    },
+    onError: () => {
+      console.log(sellPlayer?.error);
+    },
+  });
+
   const changeTeamName = useAsync({
     fn: teamDataSource.updateTeamName,
     onSuccess: () => {
@@ -62,6 +78,7 @@ function Profile() {
 
   return (
     <>
+      {/* Team Name Modal */}
       <Modal
         title={`Change Team Name`}
         open={openNameModal}
@@ -72,7 +89,7 @@ function Profile() {
         onSubmit={() => {
           if (teamName !== team?.teamName) {
             changeTeamName.main({
-              teamName
+              teamName,
             });
           } else {
             setOpenNameModal(false);
@@ -81,6 +98,8 @@ function Profile() {
         onInputChange={(e) => setTeamName(e.target.value)}
         inputValue={teamName}
       />
+
+      {/* Sell Player Modal */}
       <Modal
         title={`Sell ${selectedPlayer?.name}`}
         open={openModal}
@@ -98,6 +117,17 @@ function Profile() {
         }}
         onInputChange={(e) => setPrice(e.target.value)}
       />
+
+      {/* Remove From Market Modal */}
+      <Modal
+        open={removeModal}
+        handleClose={() => setRemoveModal(false)}
+        text={`Are you sure you want to remove ${selectedPlayer?.name} from Market?`}
+        btnText={"Remove"}
+        title={`Remove ${selectedPlayer?.name} from Market`}
+        onSubmit={() => returnPlayer.main({ playerId: selectedPlayer?._id })}
+      />
+
       <div className="profileWrapper">
         {team && (
           <>
@@ -116,7 +146,11 @@ function Profile() {
             <div className="playersContainer">
               {players?.length > 0
                 ? players.map((player) => (
-                    <PlayerCard player={player} handleSell={handleSell} />
+                    <PlayerCard
+                      player={player}
+                      handleSell={handleSell}
+                      removeFromMarket={removeFromMarket}
+                    />
                   ))
                 : "No Players Yet"}
             </div>

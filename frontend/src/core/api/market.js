@@ -23,4 +23,12 @@ export const marketDataSource = {
     });
     return response;
   },
+  returnPlayer: async (data) => {
+    const response = await sendRequest({
+      route: "market/return-player",
+      method: "PUT",
+      body: data,
+    });
+    return response;
+  },
 };
