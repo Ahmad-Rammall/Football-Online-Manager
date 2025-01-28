@@ -73,7 +73,14 @@ const userAuth = async (req, res) => {
       }
 
       const newUser = await createUser(email, password);
-      return res.status(200).json({ user: newUser });
+      const authResult = await login(newUser._id, newUser.email, password, newUser.password);
+      if (authResult.error) {
+        return res.status(400).json({ message: authResult.error });
+      }
+      return res.status(200).json({
+        user: newUser,
+        token: authResult.token,
+      });
     } else {
       const authResult = await login(user.id, email, password, user.password);
       if (authResult.error) {
