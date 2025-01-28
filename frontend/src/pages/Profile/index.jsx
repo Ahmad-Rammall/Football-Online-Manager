@@ -6,6 +6,7 @@ import useAsync from "../../../hooks/useAsync";
 import { teamDataSource } from "../../core/api/team";
 import Modal from "../../components/Modal";
 import { marketDataSource } from "../../core/api/market";
+import notify from "../../../notify/notify";
 
 function Profile() {
   const [team, setTeam] = useState({});
@@ -47,32 +48,33 @@ function Profile() {
   const sellPlayer = useAsync({
     fn: marketDataSource.sellPlayer,
     onSuccess: () => {
-      console.log("Player Sold");
+      notify.success("Player Added To Market");
     },
     onError: () => {
-      console.log(sellPlayer?.error);
+      notify.error(sellPlayer?.error);
     },
   });
 
   const returnPlayer = useAsync({
     fn: marketDataSource.returnPlayer,
     onSuccess: () => {
-      console.log("Player Returned");
+      notify.success("Player Removed From Market");
     },
     onError: () => {
-      console.log(sellPlayer?.error);
+      notify.error(returnPlayer?.error);
     },
   });
 
   const changeTeamName = useAsync({
     fn: teamDataSource.updateTeamName,
     onSuccess: () => {
-      console.log("Team Name Updated");
+      notify.success("Team Name Updated");
+
       team.teamName = teamName;
       setOpenNameModal(false);
     },
     onError: () => {
-      console.log(changeTeamName?.error);
+      notify.error(changeTeamName?.error);
     },
   });
 
@@ -116,6 +118,7 @@ function Profile() {
           }
         }}
         onInputChange={(e) => setPrice(e.target.value)}
+        inputValue={price}
       />
 
       {/* Remove From Market Modal */}

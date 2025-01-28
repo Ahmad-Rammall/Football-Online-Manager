@@ -5,6 +5,7 @@ import useAsync from "../../../hooks/useAsync";
 import { marketDataSource } from "../../core/api/market";
 import COLORS from "../../constants/COLORS";
 import Modal from "../../components/Modal/index";
+import notify from "../../../notify/notify";
 
 function Market() {
   const [players, setPlayers] = useState([]);
@@ -14,7 +15,6 @@ function Market() {
   const getAllMarketPlayers = useAsync({
     fn: marketDataSource.getMarketPlayers,
     onSuccess: () => {
-      console.log(getAllMarketPlayers.result);
       setPlayers(getAllMarketPlayers.result.data);
     },
     onError: () => {
@@ -26,10 +26,11 @@ function Market() {
   const buyPlayer = useAsync({
     fn: marketDataSource.buyPlayer,
     onSuccess: () => {
-      console.log("Player Purchased");
+      notify.success("Player Purchased!");
     },
     onError: () => {
       console.log(buyPlayer.error);
+      notify.error(buyPlayer.error);
     },
   });
 
