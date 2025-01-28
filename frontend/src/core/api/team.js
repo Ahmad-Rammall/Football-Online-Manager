@@ -7,4 +7,12 @@ export const teamDataSource = {
     });
     return response;
   },
+  updateTeamName: async (data) => {
+    const response = await sendRequest({
+      route: "team",
+      method: "PUT",
+      body: data,
+    });
+    return response;
+  },
 };

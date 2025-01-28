@@ -11,6 +11,10 @@ function Profile() {
   const [team, setTeam] = useState({});
   const [players, setPlayers] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+
+  const [openNameModal, setOpenNameModal] = useState(false);
+  const [teamName, setTeamName] = useState("");
+
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [price, setPrice] = useState(0);
 
@@ -25,6 +29,7 @@ function Profile() {
       console.log(getMyTeam?.result?.data);
 
       setTeam(getMyTeam?.result?.data?.team);
+      setTeamName(getMyTeam?.result?.data?.team?.teamName);
       setPlayers(getMyTeam?.result?.data?.players);
     },
     onError: () => {
@@ -43,8 +48,39 @@ function Profile() {
     },
   });
 
+  const changeTeamName = useAsync({
+    fn: teamDataSource.updateTeamName,
+    onSuccess: () => {
+      console.log("Team Name Updated");
+      team.teamName = teamName;
+      setOpenNameModal(false);
+    },
+    onError: () => {
+      console.log(changeTeamName?.error);
+    },
+  });
+
   return (
     <>
+      <Modal
+        title={`Change Team Name`}
+        open={openNameModal}
+        handleClose={() => setOpenNameModal(false)}
+        btnText={"Change"}
+        withInput={true}
+        inputLabel={"Team Name"}
+        onSubmit={() => {
+          if (teamName !== team?.teamName) {
+            changeTeamName.main({
+              teamName
+            });
+          } else {
+            setOpenNameModal(false);
+          }
+        }}
+        onInputChange={(e) => setTeamName(e.target.value)}
+        inputValue={teamName}
+      />
       <Modal
         title={`Sell ${selectedPlayer?.name}`}
         open={openModal}
@@ -68,7 +104,10 @@ function Profile() {
             <div className="topContainer">
               <div className="teamName">
                 {team?.teamName}
-                <div className="editIcon">
+                <div
+                  className="editIcon"
+                  onClick={() => setOpenNameModal(true)}
+                >
                   <EditIcon />
                 </div>
               </div>

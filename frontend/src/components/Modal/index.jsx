@@ -28,8 +28,9 @@ export default function CustomizedDialogs({
   title,
   withInput,
   inputLabel,
-  inputType="text",
-  onInputChange
+  inputType = "text",
+  onInputChange,
+  inputValue = "",
 }) {
   return (
     <React.Fragment>
@@ -59,9 +60,10 @@ export default function CustomizedDialogs({
               id="outlined-basic"
               label={inputLabel}
               variant="outlined"
-              sx={{margin:"10px 0", width:"100%"}}
+              sx={{ margin: "10px 0", width: "100%" }}
               type={inputType}
               onChange={onInputChange}
+              value={inputValue}
             />
           )}
         </DialogContent>
