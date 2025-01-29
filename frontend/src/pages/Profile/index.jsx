@@ -49,6 +49,14 @@ function Profile() {
     fn: marketDataSource.sellPlayer,
     onSuccess: () => {
       notify.success("Player Added To Market");
+      setPlayers((prevPlayers) =>
+        prevPlayers.map((player) =>
+          player._id === selectedPlayer._id
+            ? { ...player, askingPrice: price, onTransferList: true }
+            : player
+        )
+      );
+      setOpenModal(false);
     },
     onError: () => {
       notify.error(sellPlayer?.error);
@@ -59,6 +67,14 @@ function Profile() {
     fn: marketDataSource.returnPlayer,
     onSuccess: () => {
       notify.success("Player Removed From Market");
+      setPlayers((prevPlayers) =>
+        prevPlayers.map((player) =>
+          player._id === selectedPlayer._id
+            ? { ...player, askingPrice: 0, onTransferList: false }
+            : player
+        )
+      );
+      setRemoveModal(false);
     },
     onError: () => {
       notify.error(returnPlayer?.error);
