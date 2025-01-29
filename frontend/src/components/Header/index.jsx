@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./index.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const NavigationOption = ({ onClick, isSelected, text }) => {
   return (
@@ -12,9 +12,11 @@ const NavigationOption = ({ onClick, isSelected, text }) => {
 
 function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [selected, setSelected] = useState({
-    team: false,
-    market: false,
+    team: location.pathname === "/profile",
+    market: location.pathname === "/",
   });
 
   const handleSelectPage = (type) => {
@@ -29,8 +31,8 @@ function Header() {
       <div className="container">
         <NavigationOption
           onClick={() => {
-            handleSelectPage("market")
-            navigate("/")
+            handleSelectPage("market");
+            navigate("/");
           }}
           text={"Market"}
           isSelected={selected.market}
@@ -40,8 +42,8 @@ function Header() {
         </p>
         <NavigationOption
           onClick={() => {
-            handleSelectPage("team")
-            navigate("/profile")
+            handleSelectPage("team");
+            navigate("/profile");
           }}
           text={"Team"}
           isSelected={selected.team}
