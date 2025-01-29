@@ -10,21 +10,26 @@
   gap: 100px;
 }
 
-.option {
+.option,
+.selected {
   color: white;
   cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100px;
+  text-align: center;
 }
 
 .container div:hover {
   background-color: white;
   color: var(--primary-blue);
-  padding: 10px;
-  border-radius: 5px;
 }
 
 .selected {
   background-color: white;
   color: black;
-  padding: 10px;
-  border-radius: 5px;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
