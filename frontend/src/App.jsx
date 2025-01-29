@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Auth from "./pages/Auth";
 import Market from "./pages/Market";
 import Profile from "./pages/Profile";
@@ -9,9 +9,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Navigate to="/profile" />} />
         <Route path="/auth" element={<Auth />} />
         <Route
-          path="/"
+          path="/market"
           element={
             <MainLayout>
               <Market />

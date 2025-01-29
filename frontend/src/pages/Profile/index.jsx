@@ -7,8 +7,11 @@ import { teamDataSource } from "../../core/api/team";
 import Modal from "../../components/Modal";
 import { marketDataSource } from "../../core/api/market";
 import notify from "../../../notify/notify";
+import { useTeam } from "../../core/context/teamContext";
 
 function Profile() {
+  const { teamId, addTeamId } = useTeam();
+
   const [team, setTeam] = useState({});
   const [players, setPlayers] = useState([]);
   const [openModal, setOpenModal] = useState(false);
@@ -93,6 +96,10 @@ function Profile() {
       notify.error(changeTeamName?.error);
     },
   });
+
+  useEffect(() => {
+    localStorage.setItem("currentTeamId", players[0]?.teamId);
+  }, [players]);
 
   return (
     <>

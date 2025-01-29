@@ -6,8 +6,11 @@ import { marketDataSource } from "../../core/api/market";
 import COLORS from "../../constants/COLORS";
 import Modal from "../../components/Modal/index";
 import notify from "../../../notify/notify";
+import { useTeam } from "../../core/context/teamContext";
 
 function Market() {
+  const { teamId } = useTeam();
+
   const [players, setPlayers] = useState([]);
   const [isModalOpen, setOpenModal] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
@@ -88,6 +91,8 @@ function Market() {
         return (
           <button
             onClick={() => {
+              console.log(params.row);
+
               setSelectedPlayer(params.row);
               setOpenModal(true);
             }}
@@ -98,7 +103,17 @@ function Market() {
               border: "none",
               borderRadius: "5px",
               cursor: "pointer",
+              opacity:
+                localStorage.getItem("currentTeamId") === params.row.teamId._id
+                  ? "0.7"
+                  : "1",
+              cursor:
+                localStorage.getItem("currentTeamId") ===
+                  params.row.teamId._id ? "not-allowed" : "pointer",
             }}
+            disabled={
+              localStorage.getItem("currentTeamId") === params.row.teamId._id
+            }
           >
             Buy
           </button>

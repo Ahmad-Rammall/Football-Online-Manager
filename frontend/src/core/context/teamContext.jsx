@@ -3,10 +3,16 @@ import { createContext, useState, useContext } from "react";
 const TeamContext = createContext();
 
 export const TeamProvider = ({ children }) => {
-  const [team, setTeam] = useState([]);
+  const [teamId, setTeamId] = useState(null);
+
+  const addTeamId = (teamId) => {
+    setTeamId(teamId);
+  };
 
   return (
-    <TeamContext.Provider value={{ team }}>{children}</TeamContext.Provider>
+    <TeamContext.Provider value={{ teamId, addTeamId }}>
+      {children}
+    </TeamContext.Provider>
   );
 };
 

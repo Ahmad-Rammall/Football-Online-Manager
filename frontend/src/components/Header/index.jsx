@@ -16,7 +16,7 @@ function Header() {
 
   const [selected, setSelected] = useState({
     team: location.pathname === "/profile",
-    market: location.pathname === "/",
+    market: location.pathname === "/market",
   });
 
   const handleSelectPage = (type) => {
@@ -31,22 +31,22 @@ function Header() {
       <div className="container">
         <NavigationOption
           onClick={() => {
-            handleSelectPage("market");
-            navigate("/");
+            handleSelectPage("team");
+            navigate("/profile");
           }}
-          text={"Market"}
-          isSelected={selected.market}
+          text={"Team"}
+          isSelected={selected.team}
         />
         <p>
           <img src="/logo.png" width={70} />
         </p>
         <NavigationOption
           onClick={() => {
-            handleSelectPage("team");
-            navigate("/profile");
+            handleSelectPage("market");
+            navigate("/market");
           }}
-          text={"Team"}
-          isSelected={selected.team}
+          text={"Market"}
+          isSelected={selected.market}
         />
       </div>
     </div>
