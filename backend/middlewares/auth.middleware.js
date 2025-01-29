@@ -5,7 +5,7 @@ const authMiddleware = async (req, res, next) => {
   try {
     const token = req.headers["authorization"]?.split(" ")[1];
     if (!token) {
-      return res.status(403).send("Forbidden");
+      return res.status(401).send("No Token");
     } else {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const user = await User.findOne({ email: decoded.email }).select(
@@ -15,7 +15,7 @@ const authMiddleware = async (req, res, next) => {
       next();
     }
   } catch (error) {
-    return res.status(500).send("Expired JWT");
+    return res.status(401).send("Expired JWT");
   }
 };
 
