@@ -1,9 +1,29 @@
 import axios from "axios";
 
-export const sendRequest = async ({ method = "GET", body, route }) => {
-  const apiHost = import.meta.env.VITE_REACT_APP_API_HOST;
+const apiHost = import.meta.env.VITE_REACT_APP_API_HOST;
 
-  const response = await axios.request({
+const api = axios.create({
+  baseURL: apiHost,
+});
+
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      const errorMessage = error.response.data;
+
+      if (errorMessage === "Expired JWT" || errorMessage === "No Token") {
+        localStorage.removeItem("token");
+        window.location.href = "/auth";
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+export const sendRequest = async ({ method = "GET", body, route }) => {
+  const response = await api.request({
     url: `${apiHost}/${route}`,
     method,
     data: body,
@@ -13,7 +33,5 @@ export const sendRequest = async ({ method = "GET", body, route }) => {
     },
   });
 
-  if (response?.status === 200) {
-    return response;
-  }
+  return response;
 };
