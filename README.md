@@ -28,8 +28,6 @@ So, these collections help us organize and manage different types of information
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-
 Download [Node.js](https://nodejs.org/en)
 
 - npm
