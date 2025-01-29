@@ -107,7 +107,7 @@ function Market() {
     },
   ];
 
-  const paginationModel = { page: 0, pageSize: 5 };
+  const paginationModel = { page: 0, pageSize: 8 };
 
   return (
     <>

@@ -10,16 +10,17 @@ function MainLayout({ children }) {
   return (
     <div
       style={{
-        height: "100vh",
         display: "flex",
         flexDirection: "column",
+        height: "100vh",
       }}
     >
       {loading && <Loader />}
       <div
         style={{
-          display: loading ? "none" : "",
-          // height:"100%"
+          display: loading ? "none" : "flex",
+          flexDirection: "column",
+          flexGrow: 1,
         }}
       >
         <Header />
