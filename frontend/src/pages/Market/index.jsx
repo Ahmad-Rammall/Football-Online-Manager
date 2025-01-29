@@ -27,6 +27,11 @@ function Market() {
     fn: marketDataSource.buyPlayer,
     onSuccess: () => {
       notify.success("Player Purchased!");
+      setPlayers((prevPlayers) =>
+        prevPlayers.filter((player) => player._id !== selectedPlayer._id)
+      );
+
+      setOpenModal(false);
     },
     onError: () => {
       console.log(buyPlayer.error);
